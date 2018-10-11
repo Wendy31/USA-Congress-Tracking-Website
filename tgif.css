@@ -1,4 +1,52 @@
-.navBar {display: flex;
-    flex-direction: column;
-    
+/* ...............Nav Bar...............*/
+
+.navBar {
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+}
+
+.navBar a {
+    color: white;
+    display: flex;
+    flex-direction: row; 
+}
+
+.logo {
+    position: relative;
+    height: 100px;
+    top: 0px;
+}
+
+.email {
+    position: relative;
+    bottom: -60px;
+    float: right;
+    font-size: 15px;
+    padding-right: 30px;
+}
+
+.whitehouse {
+    position: relative;
+    top: -400px;
+    float: right;
+    height: 200px;
+    display: inline-block;
+        
+}
+
+
+
+ /*Footer */ 
+
+.footer {
+    height: 60px;
+    background: #eee;
+}
+
+.footer p {
+    text-align: center;
 }
