@@ -31,14 +31,18 @@
 
 .whitehouse {
     position: relative;
-    top: -400px;
+    top: -200px;
     float: right;
     height: 200px;
-    display: inline-block;
-        
+    display: inline-block;        
 }
 
-
+.dropdownmenu{
+    position: relative;
+    float: right;
+    bottom: 20px;
+    right: 20px;
+}
 
  /*Footer */ 
 
