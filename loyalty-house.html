@@ -2,28 +2,26 @@
 <html lang="">
 
 <head>
-
     <meta charset="UTF-8">
-    <title>House Congress</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>House Loyalty</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
 </head>
-
 
 <body>
 
     <div class="container">
 
         <header>
+
             <a href="https://www.whitehouse.gov/the_press_office/TransparencyandOpenGovernment"> <img class="logo" class="img-responsive" src="../tgif_project/pics/tgif-logo.png" alt="Chania"></a>
+
         </header>
 
         <nav class="navbar navbar-inverse">
 
             <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a></li>
-                <li class="active" class="dropdown">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Congress 113<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="house-data.html">House</a></li>
@@ -45,52 +43,30 @@
                     </ul>
                 </li>
             </ul>
-
         </nav>
 
-        <h3>Congressmen</h3>
-        <p>The major power of the House is to pass federal legislation that affects the entire country, although its bills must also be passed by the Senate and further agreed to by the U.S. President before becoming law (unless both the House and Senate re-pass the legislation with a two-thirds majority in each chamber). The House has some exclusive powers: the power to initiate revenue bills, to impeach officials (impeached officials are subsequently tried in the Senate), and to elect the U.S. President in case there is no majority in the Electoral College.
-
-            Each U.S. state is represented in the House in proportion to its population as measured in the census, but every state is entitled to at least one representative.</p>
-
-        <div class="checkbox">
-            <label>Filter by Party: </label>
-            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="R" id="clickR">Republic</label>
-            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="D" id="clickD">Democrat</label>
-            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="I" id="clickI">Independent</label>
-        </div>
-
-        <label class="dropdownmenu">
-            Filter by State:
-            <select id="housedropdown">
-                <option value="All">All</option>
-            </select>
-        </label>
+        <h4>Party Loyalty</h4>
 
 
-        <table class="table table-striped" id="house-data">
-            <thead class="thead thead-dark">
-                <th>Full Name</th>
-                <th>Party</th>
-                <th>State</th>
-                <th>Seniority</th>
-                <th>&#8274; of Votes</th>
-            </thead>
-            <tbody id="tblBod"></tbody>
-        </table>
+
+
+
+
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="tgif.css">
+
         <script src="pro-congress-113-house.js"></script>
-        <script src="house.js"></script>
+        <script src="loyalty-house.js"></script>
+
     </div>
+
 </body>
 
 <footer class="footer">
     <p>&copy; 2016 TGIF | All Rights Reserved</p>
 </footer>
-
 
 </html>

@@ -186,55 +186,49 @@ populateStateDropdown();
  */
 
 function getPartyAndState() {
-    var dropmenu = document.getElementById("statedropdown").value;
-
+    var dropmenu = document.getElementById("statedropdown").value; // get dropmenu <select> from HTML to JS
 
     // get checkbox to filter table
-    var arrayCheckedbox = []; // Array of all checked items
-    var senateCheckedBoxes = document.getElementsByName("partyforsenate"); // pass checkbox names to function
-    for (var n = 0; n < senateCheckedBoxes.length; n++) { //loop over all checkboxes//
-        if (senateCheckedBoxes[n].checked) {
-            arrayCheckedbox.push(senateCheckedBoxes[n].value);
+    var arrayCheckedbox = []; // Empty array to put all checked items in
+    var senateCheckedBoxes = document.getElementsByName("partyforsenate"); // pass checkbox names to from HTML to JS function
+    for (var n = 0; n < senateCheckedBoxes.length; n++) { //loop over all checkboxes
+        if (senateCheckedBoxes[n].checked) { // if checkbox(es) checked
+            arrayCheckedbox.push(senateCheckedBoxes[n].value); // push checked ones into empty array
         }
     }
 
-    var tblBody = document.getElementById("tblBody");
-    var rows = tblBody.getElementsByTagName("tr");
+    var tblBody = document.getElementById("tblBody"); // get table body from HTML to JS
+    var rows = tblBody.getElementsByTagName("tr"); // get tr from inside tblbody by tag name
 
     // After any checkbox is changed, Loop through all checkboxes and show only those marked as checked
     // Loop through all table rows
     // check the party columm. If value is in arrayCheckBox then show, else hide
 
-    for (var i = 0; i < rows.length; i++) //loop over all rows and get second td
-    {
-        var thirdTD = rows[i].getElementsByTagName("td")[2].innerText
-        var secondTD = rows[i].getElementsByTagName("td")[1].innerText // text inside second cell of a row (repeats thru all rows to get 2nd td)
-        // console.log(secondTD)  // R
+    for (var i = 0; i < rows.length; i++) { //loop over all rows and get second and third td
+        var secondTD = rows[i].getElementsByTagName("td")[1].innerText // text inside second cell of a row
+        var thirdTD = rows[i].getElementsByTagName("td")[2].innerText // text inside third cell of a row
         // arrayCheckedeBox = ["R", "D"]
-        // includes function checks if the given string is inside the array
-        if (arrayCheckedbox.includes(secondTD) && (dropmenu.includes(thirdTD) || dropmenu.includes("All"))) //if secondTD (from table) & array both contain (secondTD)
-        {
-            rows[i].style.display = "table-row";
+        // 'includes' function checks if the given string is inside the array
+        if (arrayCheckedbox.includes(secondTD) && (dropmenu.includes(thirdTD) || dropmenu.includes("All"))) { //if array includes secondTD and dropmenu includes thirdTD or "All"
+            rows[i].style.display = "table-row"; // display table rows
         } else {
-            rows[i].style.display = "none";
+            rows[i].style.display = "none"; // else hide rows
         }
     }
-    // if arrayCheckBox is empty then display everything
+    // if arrayCheckBox is empty and dropmenu incluse thirdTD and "All", display everything. This allows drop menu to work without checkbox checked. 
     if (arrayCheckedbox.length === 0) { // now array is empty
-        for (var i = 0; i < rows.length; i++) //loop over all rows
-        {
-            var thirdTD = rows[i].getElementsByTagName("td")[2].innerText;
-
-            if (dropmenu.includes(thirdTD) || dropmenu.includes("All")) {
-                rows[i].style.display = "table-row";
+        for (var i = 0; i < rows.length; i++) { //loop over all rows
+            var thirdTD = rows[i].getElementsByTagName("td")[2].innerText; // get thirdTD
+            if (dropmenu.includes(thirdTD) || dropmenu.includes("All")) { // if dropmenu includes thirdTD and "All"
+                rows[i].style.display = "table-row"; // display all rows
             } else {
-                rows[i].style.display = "none";
+                rows[i].style.display = "none"; // else hide
             }
         }
     }
 }
 
-// JS lets you execute code when events are detected. "Click" checkbox to run function.
+// JS lets you execute code when events are detected. "Click" checkbox and "change" dropmenu to run function.
 document.getElementById("clickR").addEventListener("click", getPartyAndState);
 document.getElementById("clickD").addEventListener("click", getPartyAndState);
 document.getElementById("clickI").addEventListener("click", getPartyAndState);
