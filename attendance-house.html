@@ -47,13 +47,31 @@
 
         <h4>Attendance</h4>
 
-        <table class="table table-striped" id="senate-stats">
+        <table class="table table-striped" id="house-stats">
             <thead class="thead thead-dark">
                 <th>Party</th>
                 <th>Number of Representatives</th>
                 <th>&#8274; Voted with Party</th>
             </thead>
-            <tbody id="tblBody"></tbody>
+            <tbody id="tblBodyHouseGlance"></tbody>
+        </table>
+
+        <table class="table table-striped" id="leastEngagedHouse">
+            <thead class="thead thead-dark">
+                <th>Name</th>
+                <th>No. of Missed Votes</th>
+                <th>&#8274; Missed</th>
+            </thead>
+            <tbody id="tblBodyLeastEngaged"></tbody>
+        </table>
+
+        <table class="table table-striped" id="mostEngagedHouse">
+            <thead class="thead thead-dark">
+                <th>Name</th>
+                <th>No. of Missed Votes</th>
+                <th>&#8274; Missed</th>
+            </thead>
+            <tbody id="tblBodyMostEngaged"></tbody>
         </table>
 
 
