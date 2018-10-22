@@ -1,4 +1,30 @@
-var arrayMembers = data.results[0].members; // global array
+//var arrayMembers = data.results[0].members; // global array
+
+var arrayMembers;
+
+var url = "https://api.propublica.org/congress/v1/113/house/members.json";
+
+fetch(url, {
+        headers: {
+            'X-API-KEY': 'XPayM8RaBlLPv6ALgIuIRn0L6ubyFRKxDVNTrFgR'
+        }
+    })
+    .then(function (data) {
+        return data.json();
+    })
+    .then(function (myData) {
+        console.log(myData);
+        arrayMembers = myData.results[0].members;
+
+        getMemberNoForEachParty();
+        createGlanceTable(statistics.members);
+        getMembersInOrder("lowest");
+        createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
+        getMembersInOrder("highest");
+        createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+    })
+
+
 
 //.......Statistics object.......//
 var statistics = {
@@ -73,8 +99,14 @@ function calculateAverage(arrayParty) {
     }
     var average = sum / arrayParty.length; // get average
     var roundedAverage = average.toFixed(2);
-    return roundedAverage; // return the result each time
+
+    if (isNaN(roundedAverage)) {
+        roundedAverage = 0;
+    }
+
+    return roundedAverage + " %"; // return the result each time
 }
+
 
 
 // ..........Senate at a glance table...........//
@@ -155,7 +187,7 @@ function createEngagementTable(data, tblBodyName) {
         link.setAttribute("href", data[i].url);
         link.textContent = fullName;
 
-        var memberInfo = [link, data[i].missed_votes, data[i].missed_votes_pct];
+        var memberInfo = [link, data[i].missed_votes, data[i].missed_votes_pct + " %"];
 
         for (var j = 0; j < memberInfo.length; j++) {
             var tblCells = document.createElement("td");

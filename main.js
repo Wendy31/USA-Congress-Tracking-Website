@@ -91,11 +91,34 @@
 //document.getElementById("statedropdown").addEventListener("change", filterByStates);
 //
 
+//var arrayMembers = data.results[0].members;
 
-//................ Table of Senate Members................//
 
-var arrayMembers = data.results[0].members;
+var arrayMembers;
 
+var url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+
+fetch(url, {
+        headers: {
+            'X-API-KEY': 'XPayM8RaBlLPv6ALgIuIRn0L6ubyFRKxDVNTrFgR'
+        }
+    })
+    .then(function (data) {
+        return data.json();
+    })
+    .then(function (myData) {
+        console.log(myData);
+        arrayMembers = myData.results[0].members;
+
+        createTable()
+        populateStateDropdown()
+        getPartyAndState()
+    })
+
+
+
+
+//...............Table function............//
 function createTable() {
     var tbl = document.getElementById("senate-data");
     var tblBody = document.getElementById("tblBody");

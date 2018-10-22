@@ -1,4 +1,29 @@
-var arrayMembers = data.results[0].members; // global data of members
+//var arrayMembers = data.results[0].members; // global data of members
+
+var arrayMembers;
+
+var url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+
+fetch(url, {
+        headers: {
+            'X-API-KEY': 'XPayM8RaBlLPv6ALgIuIRn0L6ubyFRKxDVNTrFgR'
+        }
+    })
+    .then(function (data) {
+        return data.json();
+    })
+    .then(function (myData) {
+        console.log(myData);
+        arrayMembers = myData.results[0].members;
+
+        getMemberNoForEachParty();
+        createGlanceTable(statistics.members);
+        getMembersInOrder("lowest")
+        createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
+        getMembersInOrder("highest");
+        createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+    })
+
 
 //.......Statistics object.......//
 var statistics = {
@@ -76,7 +101,12 @@ function calculateAverage(arrayParty) { // params can be any name. It's what wil
     }
     var average = sum / arrayParty.length; // get average
     var roundedAverage = average.toFixed(2);
-    return roundedAverage; // return if you want to return anything as a RESULT of this function call
+
+    if (isNaN(roundedAverage)) {
+        roundedAverage = 0;
+    }
+
+    return roundedAverage + " %"; // return if you want to return anything as a RESULT of this function call
 }
 
 
@@ -180,7 +210,7 @@ function createEngagementTable(data, tblBodyName) {
         link.setAttribute("href", data[i].url);
         link.textContent = fullName;
 
-        var memberInfo = [link, data[i].missed_votes, data[i].missed_votes_pct];
+        var memberInfo = [link, data[i].missed_votes, data[i].missed_votes_pct + " %"];
 
         for (var j = 0; j < memberInfo.length; j++) {
             var tblCells = document.createElement("td");

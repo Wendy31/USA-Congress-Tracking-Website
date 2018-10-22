@@ -1,5 +1,4 @@
 /* ...............Nav Bar...............*/
-
 .navBar {
     display: flex;
     flex-direction: row;
@@ -12,7 +11,7 @@
 .navBar a {
     color: white;
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
 }
 
 .logo {
@@ -34,17 +33,17 @@
     top: -200px;
     float: right;
     height: 200px;
-    display: inline-block;        
+    display: inline-block;
 }
 
-.dropdownmenu{
+.dropdownmenu {
     position: relative;
     float: right;
     bottom: 20px;
     right: 20px;
 }
 
- /*Footer */ 
+/*..............Footer.............*/
 
 .footer {
     height: 60px;
@@ -54,3 +53,42 @@
 .footer p {
     text-align: center;
 }
+
+
+/* ...........Table Style...........*/
+.topTableRight {
+    display: block;
+    width: 50%;
+    padding-left: 30px;
+    padding-bottom: 70px;
+    float: right;
+}
+
+.bottomTableLeft {
+    display: block;
+    width: 50%;
+    padding-right: 30px;
+}
+
+.bottomTableRight {
+    display: block;
+    width: 50%;
+    padding-left: 30px;
+}
+
+.tableInARow {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+}
+
+/*..........Paragraph top left..........*/
+.pTopLeft {
+    display: block;
+    width: 50%;
+    float: left;
+    margin-top: -10px; 
+    padding-right: 30px;
+}
+
+

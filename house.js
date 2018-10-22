@@ -1,5 +1,31 @@
-// House Data
-var arrayHouseMembers = data.results[0].members;
+//var arrayHouseMembers = data.results[0].members; 
+
+var arrayHouseMembers;
+
+var url = "https://api.propublica.org/congress/v1/113/house/members.json";
+
+fetch(url, {
+        headers: {
+            'X-API-KEY': 'XPayM8RaBlLPv6ALgIuIRn0L6ubyFRKxDVNTrFgR'
+        }
+    })
+    .then(function (data) {
+        return data.json();
+    })
+    .then(function (myData) {
+        console.log(myData);
+        arrayHouseMembers = myData.results[0].members;
+
+        createTable();
+        populateStateDropdown();
+        document.getElementById("clickR").addEventListener("click", getPartyAndState);
+        document.getElementById("clickD").addEventListener("click", getPartyAndState);
+        document.getElementById("clickI").addEventListener("click", getPartyAndState);
+        document.getElementById("housedropdown").addEventListener("change", getPartyAndState);
+    })
+
+
+
 
 function createTable() {
 
