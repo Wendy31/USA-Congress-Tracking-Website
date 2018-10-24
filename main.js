@@ -93,7 +93,7 @@
 
 //var arrayMembers = data.results[0].members;
 
-
+//..............Fetch live data..............//
 var arrayMembers;
 
 var url = "https://api.propublica.org/congress/v1/113/senate/members.json";
@@ -109,12 +109,45 @@ fetch(url, {
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
-
-        createTable()
+        app.members = arrayMembers;
+        // createTable()
         populateStateDropdown()
-        getPartyAndState()
-    })
+    });
 
+
+document.getElementById("clickR").addEventListener("click", getPartyAndState);
+document.getElementById("clickD").addEventListener("click", getPartyAndState);
+document.getElementById("clickI").addEventListener("click", getPartyAndState);
+document.getElementById("statedropdown").addEventListener("change", getPartyAndState);
+
+
+
+// Vue object to make table
+var app = new Vue({
+    el: '#app',
+    data: {
+        members: []
+    },
+    methods: {
+//on-click
+        activateCheckBoxFilters: function() {
+            getPartyAndState()
+        } 
+    },
+    computed: {
+        populateStateDropdown: function () { // function name and then declare function
+            return [...new Set(this.members.map((member) => member.state).sort())]
+            // inside Set is an array with no dublicates. 
+            // members.map = a loop of all members
+            // to get thru each member and return member.state
+            // => arrow function (anonymous) = function () {} and returns state
+            // and sort
+            // this will return an array of strings
+            // all states in strings in alphabetical order
+
+        }
+    }
+})
 
 
 
@@ -126,7 +159,6 @@ function createTable() {
 
     for (var i = 0; i < arrayMembers.length; i++) {
         var tableRow = document.createElement("tr");
-        tblBody.appendChild(tableRow);
 
         var fullName;
 
@@ -148,11 +180,12 @@ function createTable() {
             tableRow.appendChild(tableCells);
             tableCells.append(memberInfo[j]);
         }
+        tblBody.appendChild(tableRow);
     }
     tbl.appendChild(tblBody);
     console.log(tbl);
 }
-createTable();
+//createTable();
 
 
 //................. Populate state names to dropdown menu ..................//
@@ -160,20 +193,23 @@ createTable();
 function populateStateDropdown() {
     // Get the Table
     var tableData = document.getElementById("tblBody"); // tablebody from HTML to JS
-    var rows = tblBody.getElementsByTagName("tr"); // get all rows 
+    var rows = tableData.getElementsByTagName("tr"); // get all rows 
     var arrayStates = []; // creating variable arrayStates and setting it to an empty array
 
+    console.log(rows.length)
     // get thirdTD column "state" by looping all the rows first
     for (var i = 0; i < rows.length; i++) {
+
+        console.log("Ye")
         var thirdTD = rows[i].getElementsByTagName("td")[2].innerText //text inside third cell of a row
         // to not add same states inside the array we check if arrayStates has states inside already
         if (!arrayStates.includes(thirdTD)) { // if not inside the array, we want to add it. Stops dublicates.
             arrayStates.push(thirdTD); // put each state in the array 
-            arrayStates.sort(); // sort in alphabetical order
         }
     }
     // console.log(arrayStates) // list of states 
     // get the dropdown from HTML
+    arrayStates.sort(); // sort in alphabetical order
     var dropdown = document.getElementById("statedropdown"); // dropdown menu from HTML to JS
     // Populate the menu by adding an option element for each state in arrayStates
     for (var i = 0; i < arrayStates.length; i++) {
@@ -188,6 +224,8 @@ function populateStateDropdown() {
         dropdown.add(option); // no array of states anymore, all inside 
         //        <select><option></option></select> as text
     }
+
+    console.log(arrayStates)
     // end goal is to have a select that looks something like this
     // <select>
     //     <option></option>
@@ -196,7 +234,7 @@ function populateStateDropdown() {
     //     <option value="Hawaii">Hawaii</option>
     // </select>
 }
-populateStateDropdown();
+//populateStateDropdown();
 
 
 //......................... Combine both Checkbox and Dropdown Menu filters ....................... //
@@ -252,7 +290,7 @@ function getPartyAndState() {
 }
 
 // JS lets you execute code when events are detected. "Click" checkbox and "change" dropmenu to run function.
-document.getElementById("clickR").addEventListener("click", getPartyAndState);
-document.getElementById("clickD").addEventListener("click", getPartyAndState);
-document.getElementById("clickI").addEventListener("click", getPartyAndState);
-document.getElementById("statedropdown").addEventListener("change", getPartyAndState);
+//document.getElementById("clickR").addEventListener("click", getPartyAndState);
+//document.getElementById("clickD").addEventListener("click", getPartyAndState);
+//document.getElementById("clickI").addEventListener("click", getPartyAndState);
+//document.getElementById("statedropdown").addEventListener("change", getPartyAndState);

@@ -64,7 +64,7 @@ function createTable() {
     console.log(tbl);
 }
 
-createTable();
+//createTable();
 
 //................. Populate state names to dropdown menu ..................//
 
@@ -107,7 +107,7 @@ function populateStateDropdown() {
     //     <option value="Hawaii">Hawaii</option>
     // </select>
 }
-populateStateDropdown();
+//populateStateDropdown();
 
 
 //......................... Combine both Checkbox and Dropdown Menu filters ....................... //
@@ -169,7 +169,7 @@ function getPartyAndState() {
 }
 
 // JS lets you execute code when events are detected. "Click" checkbox to run function.
-document.getElementById("clickR").addEventListener("click", getPartyAndState);
-document.getElementById("clickD").addEventListener("click", getPartyAndState);
-document.getElementById("clickI").addEventListener("click", getPartyAndState);
-document.getElementById("housedropdown").addEventListener("change", getPartyAndState);
+//document.getElementById("clickR").addEventListener("click", getPartyAndState);
+//document.getElementById("clickD").addEventListener("click", getPartyAndState);
+//document.getElementById("clickI").addEventListener("click", getPartyAndState);
+//document.getElementById("housedropdown").addEventListener("change", getPartyAndState);

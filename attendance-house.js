@@ -53,8 +53,8 @@ var statistics = {
 }
 
 // calling functions 
-getMemberNoForEachParty(); // to count and get avg vote
-createGlanceTable(statistics.members); // calls table function with given data (stats object) 
+//getMemberNoForEachParty(); // to count and get avg vote
+//createGlanceTable(statistics.members); // calls table function with given data (stats object) 
 
 
 //.........Count each member of each party........//
@@ -199,8 +199,8 @@ function createEngagementTable(data, tblBodyName) {
 }
 
 
-getMembersInOrder("lowest"); // calls function that returns an ordered array, in desceding order
-createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged"); // calls table function that uses the given ordered array and puts into the given table body
-
-getMembersInOrder("highest"); // calls function that returns an ordered array, in ascending order
-createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged"); // calls table function that uses the given ordered array and puts into the given table body
+//getMembersInOrder("lowest"); // calls function that returns an ordered array, in desceding order
+//createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged"); // calls table function that uses the given ordered array and puts into the given table body
+//
+//getMembersInOrder("highest"); // calls function that returns an ordered array, in ascending order
+//createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged"); // calls table function that uses the given ordered array and puts into the given table body

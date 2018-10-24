@@ -51,8 +51,8 @@ var statistics = {
     ]
 }
 
-getMemberNoForEachParty(); // calls the count function
-createGlanceTable(statistics.members); //calls table function with statistics object inside param to populate table
+//getMemberNoForEachParty(); // calls the count function
+//createGlanceTable(statistics.members); //calls table function with statistics object inside param to populate table
 
 
 //.........Count each member of each party........//
@@ -136,13 +136,13 @@ function createGlanceTable(arrayStatisticsMembers) {
 // Note: It does not matter where global "vars" are delcarted in the code because javascript has hoisting
 // https://www.w3schools.com/js/js_hoisting.asp
 
-getMembersInOrder("lowest")
-createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
-
-getMembersInOrder("highest"); // calling the function that calculates and returns an array
-
-// table function that is passed a function that returns an ordered array, and name of a table body. 
-createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+//getMembersInOrder("lowest")
+//createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
+//
+//getMembersInOrder("highest"); // calling the function that calculates and returns an array
+//
+//// table function that is passed a function that returns an ordered array, and name of a table body. 
+//createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
 
 
 //.......Orders Members in top/ bottom 10%.......//
