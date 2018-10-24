@@ -17,40 +17,92 @@ fetch(url, {
         arrayMembers = myData.results[0].members;
 
         getMemberNoForEachParty();
-        createGlanceTable(statistics.members);
+        //        createGlanceTable(statistics.members);
         getMembersInOrder("lowest");
-        createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
+        //        createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
         getMembersInOrder("highest");
-        createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+        //        createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
     })
 
 
 
-//.......Statistics object.......//
-var statistics = {
-    "members": [
-        {
-            "party": "Democrats",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        },
-        {
-            "party": "Republicans",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        },
-        {
-            "party": "Independents",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        },
-        {
-            "party": "Total",
-            "no_representatives": 0,
-            "avg_votes": 0,
+
+
+
+//..............Vue object to make table...............//
+var app = new Vue({
+    el: '#app',
+    data: {
+        members: [],
+        membersStats: { // an object with keys(parties). Each key has an object. 
+            Democrats: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            },
+            Republicans: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            },
+            Independents: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            },
+            Total: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            }
         }
-    ]
-}
+    },
+    methods: {
+        callAllFunctions: function () {
+            //            createGlanceTable(statistics.members);
+
+            getMembersInOrder("lowest");
+            //            createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
+
+            getMembersInOrder("highest");
+            //            createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+        }
+    },
+    computed: {
+
+    },
+    created: function () {
+        getMemberNoForEachParty();
+    }
+
+
+})
+
+
+
+
+//
+////.......Statistics object.......//
+//var statistics = {
+//    "members": [
+//        {
+//            "party": "Democrats",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Republicans",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Independents",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Total",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        }
+//    ]
+//}
 
 // calling functions 
 //getMemberNoForEachParty(); // to count and get avg vote
@@ -76,17 +128,19 @@ function getMemberNoForEachParty() {
     }
 
     // append all data to Statistics object
-    statistics.members[0].no_representatives = arrayDemocrats.length;
-    statistics.members[1].no_representatives = arrayRepublicans.length;
-    statistics.members[2].no_representatives = arrayIndependents.length;
-    statistics.members[3].no_representatives =
+    // append all data to Statistics object
+    app.membersStats.Democrats.no_representatives = arrayDemocrats.length;
+    app.membersStats.Republicans.no_representatives = arrayRepublicans.length;
+    app.membersStats.Independents.no_representatives = arrayIndependents.length;
+    app.membersStats.Total.no_representatives =
         myArray.length;
 
+
     // to calculate the avg, call the avg function to do the task and put the approriate array inside parameter 
-    statistics.members[0].avg_votes = calculateAverage(arrayDemocrats);
-    statistics.members[1].avg_votes = calculateAverage(arrayRepublicans);
-    statistics.members[2].avg_votes = calculateAverage(arrayIndependents);
-    statistics.members[3].avg_votes =
+    app.membersStats.Democrats.avg_votes = calculateAverage(arrayDemocrats);
+    app.membersStats.Republicans.avg_votes = calculateAverage(arrayRepublicans);
+    app.membersStats.Independents.avg_votes = calculateAverage(arrayIndependents);
+    app.membersStats.Total.avg_votes =
         calculateAverage(myArray);
 }
 

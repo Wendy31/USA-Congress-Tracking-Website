@@ -1,6 +1,7 @@
 //var arrayHouseMembers = data.results[0].members; 
 
-var arrayHouseMembers;
+//..............Fetch live data..............//
+var arrayMembers;
 
 var url = "https://api.propublica.org/congress/v1/113/house/members.json";
 
@@ -13,16 +14,46 @@ fetch(url, {
         return data.json();
     })
     .then(function (myData) {
-        console.log(myData);
-        arrayHouseMembers = myData.results[0].members;
-
-        createTable();
+        arrayMembers = myData.results[0].members;
+        app.members = arrayMembers;
+    //        createTable();
         populateStateDropdown();
-        document.getElementById("clickR").addEventListener("click", getPartyAndState);
-        document.getElementById("clickD").addEventListener("click", getPartyAndState);
-        document.getElementById("clickI").addEventListener("click", getPartyAndState);
-        document.getElementById("housedropdown").addEventListener("change", getPartyAndState);
     })
+
+
+document.getElementById("clickR").addEventListener("click", getPartyAndState);
+document.getElementById("clickD").addEventListener("click", getPartyAndState);
+document.getElementById("clickI").addEventListener("click", getPartyAndState);
+document.getElementById("housedropdown").addEventListener("change", getPartyAndState);
+
+
+
+//..............Vue object to make table..............//
+var app = new Vue({
+    el: '#app',
+    data: {
+        members: []
+    },
+    methods: {
+        activateCheckBoxFilters: function () {
+            getPartyAndState()
+        }
+    },
+    computed: {
+        populateStateDropdown: function () { // function name and then declare function
+            return [...new Set(this.members.map((member) => member.state).sort())]
+            // inside Set is an array with no dublicates. 
+            // members.map = a loop of all members
+            // to get thru each member and return member.state
+            // => arrow function (anonymous) = function () {} and returns state
+            // and sort
+            // this will return an array of strings
+            // all states in strings in alphabetical order
+
+        }
+    }
+})
+
 
 
 

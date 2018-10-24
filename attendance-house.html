@@ -9,7 +9,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" id="app">
 
         <header>
 
@@ -61,7 +61,13 @@
                     <th>Number of Representatives</th>
                     <th>&#8274; Voted with Party</th>
                 </thead>
-                <tbody id="tblBodyHouseGlance"></tbody>
+                <tbody id="tblBodyHouseGlance">
+                    <tr v-for="objectInsideKey, keyParty in membersStats">
+                        <td>{{keyParty}}</td>
+                        <td>{{objectInsideKey.no_representatives}}</td>
+                        <td>{{objectInsideKey.avg_votes}}</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
@@ -90,25 +96,20 @@
                 </table>
             </div>
         </div>
-
-
-
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="tgif.css">
-
-<!--        <script src="pro-congress-113-house.js"></script>-->
-        <script src="https://unpkg.com/vue/dist/vue.js"></script>
-        <script src="attendance-house.js"></script>
-
     </div>
 
-</body>
+    <footer class="footer">
+        <p>&copy; 2016 TGIF | All Rights Reserved</p>
+    </footer>
 
-<footer class="footer">
-    <p>&copy; 2016 TGIF | All Rights Reserved</p>
-</footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="tgif.css">
+
+    <!--        <script src="pro-congress-113-house.js"></script>-->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="attendance-house.js"></script>
+
+</body>
 
 </html>

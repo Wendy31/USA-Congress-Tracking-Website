@@ -13,7 +13,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" id="app">
 
         <header>
             <a href="https://www.whitehouse.gov/the_press_office/TransparencyandOpenGovernment"> <img class="logo" class="img-responsive" src="../tgif_project/pics/tgif-logo.png" alt="Chania"></a>
@@ -55,18 +55,18 @@
 
         <div class="checkbox">
             <label>Filter by Party: </label>
-            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="R" id="clickR">Republic</label>
-            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="D" id="clickD">Democrat</label>
-            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="I" id="clickI">Independent</label>
+            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="R" id="clickR" v-on:click="activateCheckBoxFilters">Republic</label>
+            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="D" id="clickD" v-on:click="activateCheckBoxFilters">Democrat</label>
+            <label class="checkbox-inline"><input type="checkbox" name="partyforhouse" value="I" id="clickI" v-on:click="activateCheckBoxFilters">Independent</label>
         </div>
 
         <label class="dropdownmenu">
             Filter by State:
-            <select id="housedropdown">
+            <select id="housedropdown" v-on:change="activateCheckBoxFilters">
                 <option value="All">All</option>
+                <option v-for="state in populateStateDropdown">{{state}}</option>
             </select>
         </label>
-
 
         <table class="table table-striped" id="house-data">
             <thead class="thead thead-dark">
@@ -76,22 +76,29 @@
                 <th>Seniority</th>
                 <th>&#8274; of Votes</th>
             </thead>
-            <tbody id="tblBod"></tbody>
+            <tbody id="tblBod">
+                <tr v-for="member in members">
+                    <td><a v-bind:href="member.url" target="_blank"> {{member.first_name}} {{member.middle_name}} {{member.last_name}}</a></td>
+                    <td>{{member.party}}</td>
+                    <td>{{member.state}}</td>
+                    <td>{{member.seniority}}</td>
+                    <td>{{member.votes_with_party_pct}}</td>
+                </tr>
+            </tbody>
         </table>
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="tgif.css">
-<!--        <script src="pro-congress-113-house.js"></script>-->
-        <script src="https://unpkg.com/vue/dist/vue.js"></script>
-        <script src="house.js"></script>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2016 TGIF | All Rights Reserved</p>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="tgif.css">
+    <!--        <script src="pro-congress-113-house.js"></script>-->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="house.js"></script>
+
 </body>
-
-<footer class="footer">
-    <p>&copy; 2016 TGIF | All Rights Reserved</p>
-</footer>
-
 
 </html>

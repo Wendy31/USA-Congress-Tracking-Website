@@ -64,9 +64,9 @@
 
         <label class="dropdownmenu">
             Filter by State:
-            <select id="statedropdown">
-                <option value="All" v-on:change="activateCheckBoxFilters">All</option>
-                <option v-for="state in populateStateDropdown" v-on:change="activateCheckBoxFilters">{{state}}</option>
+            <select id="statedropdown" v-on:change="activateCheckBoxFilters">
+                <option value="All">All</option>
+                <option v-for="state in populateStateDropdown">{{state}}</option>
                 <!--loops each state in dropdown menu and displays them -->
             </select>
         </label>
@@ -89,9 +89,7 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
-
 
     <footer class="footer">
         <p>&copy; 2016 TGIF | All Rights Reserved</p>
@@ -106,7 +104,5 @@
     <script src="main.js"></script>
 
 </body>
-
-
 
 </html>

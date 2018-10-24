@@ -1,96 +1,3 @@
-// function hiwendy(arguments,arg1,arg2) {
-//     console.log(arg1) //blah2
-
-//     // return // always end the function execution
-// }
-
-// hiwendy(blah,blah2,blah3)
-
-//...........Senate Party Checkbox.............//
-//
-//function getCheckBoxValue() {
-//
-//    // Logic: 
-//    // 1. Get the value of each checkbox
-//    // 2. For each checked, checkbox, add the value to the array
-//    var arrayCheckedbox = []; // Array of all checked items
-//    var senateCheckedBoxes = document.getElementsByName("partyforsenate"); // pass checkbox names to function
-//    for (var n = 0; n < senateCheckedBoxes.length; n++) { //loop over all checkboxes//
-//        if (senateCheckedBoxes[n].checked) {
-//            arrayCheckedbox.push(senateCheckedBoxes[n].value);
-//        }
-//    }
-//    var tblBody = document.getElementById("tblBody");
-//    var rows = tblBody.getElementsByTagName("tr");
-//
-//    // If arrayCheckBox is empty then display everything
-//    if (arrayCheckedbox.length === 0) {
-//        for (var i = 0; i < rows.length; i++) //loop over all rows
-//        {
-//            rows[i].style.display = "table-row" // and display all table rows
-//        }
-//        return // always ends the function execution
-//    }
-//    // After any checkbox is changed, Loop through all checkboxes and show only those marked as checked
-//    // Loop through all table rows
-//    // check the party columm. If value is in arrayCheckBox then show, else hide
-//
-//    for (var i = 0; i < rows.length; i++) //loop over all rows and get second td
-//    {
-//        var secondTD = rows[i].getElementsByTagName("td")[1].innerText // text inside second cell of a row (repeats thru all rows to get 2nd td)
-//        // console.log(secondTD)  // R
-//        // arrayCheckedeBox = ["R", "D"]
-//        // includes function checks if the given string is inside the array
-//        if (secondTD && arrayCheckedbox.includes(secondTD)) //if secondTD (from table) & array both contain (secondTD)
-//        {
-//            rows[i].style.display = "table-row";
-//        } else {
-//            rows[i].style.display = "none";
-//        }
-//    }
-//}
-//// JS lets you execute code when events are detected. "Click" checkbox to run function.
-//document.getElementById("clickR").addEventListener("click", getCheckBoxValue);
-//document.getElementById("clickD").addEventListener("click", getCheckBoxValue);
-//document.getElementById("clickI").addEventListener("click", getCheckBoxValue);
-//
-//
-//// Fitler table by state name //
-//
-//function filterByStates() {
-//    // Get the Table
-//    var tableData = document.getElementById("tblBody"); // tablebody from HTML to JS
-//    var rows = tblBody.getElementsByTagName("tr"); // get all rows 
-//    // get thirdTD column "state" by looping all the rows first
-//
-//    // get the dropdown menu
-//    var dropmenu = document.getElementById("statedropdown");
-//    // get the state thats selected
-//    var selectedStates = dropmenu[dropmenu.selectedIndex].value;
-//    // if selectedStates Value === to table td3 then show tr by looping and show all relevant TRs
-//
-//    // if item in dropdown includes TD3 then show TR
-//    for (var i = 0; i < rows.length; i++) { // loop over all rows 
-//        var thirdTD = rows[i].getElementsByTagName("td")[2].innerText; // to get thirdTD
-//        if (thirdTD && selectedStates.includes(thirdTD)) { //if thirdTD (from table) & dropDown contains (thirdTD)
-//            rows[i].style.display = "table-row"; //display all rows
-//        } else {
-//            rows[i].style.display = "none"; // else hide the rows
-//        }
-//    }
-//
-//    // then show all rows when "ALL" from HTML is selected 
-//    var all = document.getElementsByTagName("option")[0].value; // get value from HTML to JS (why .firstChild returns "text") 
-//    if (selectedStates.includes(all)) { // if "All" selected, display all rows. 
-//        for (var i = 0; i < rows.length; i++) { // loop all rows
-//            rows[i].style.display = "table-row"; // and display all
-//        }
-//        return;
-//    }
-//}
-//document.getElementById("statedropdown").addEventListener("change", filterByStates);
-//
-
 //var arrayMembers = data.results[0].members;
 
 //..............Fetch live data..............//
@@ -122,17 +29,16 @@ document.getElementById("statedropdown").addEventListener("change", getPartyAndS
 
 
 
-// Vue object to make table
+//..............Vue object to make table...............//
 var app = new Vue({
     el: '#app',
     data: {
         members: []
     },
     methods: {
-//on-click
-        activateCheckBoxFilters: function() {
+        activateCheckBoxFilters: function () {
             getPartyAndState()
-        } 
+        }
     },
     computed: {
         populateStateDropdown: function () { // function name and then declare function
@@ -144,7 +50,6 @@ var app = new Vue({
             // and sort
             // this will return an array of strings
             // all states in strings in alphabetical order
-
         }
     }
 })
