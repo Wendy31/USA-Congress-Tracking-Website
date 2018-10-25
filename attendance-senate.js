@@ -11,18 +11,20 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
+        app.loading = true;
     })
+
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
         app.members = arrayMembers;
+        app.loading = false;
 
         getMemberNoForEachParty();
-       
+
         app.bottomTenPctMembers = getMembersInOrder("descending");
-      
+
         app.topTenPctMembers = getMembersInOrder("ascending");
-       
     })
 
 
@@ -30,6 +32,7 @@ fetch(url, {
 var app = new Vue({
     el: '#app',
     data: {
+        loading: true,
         members: [],
         membersStats: { // an object with keys(parties). Each key has an object. 
             Democrats: {
@@ -53,9 +56,9 @@ var app = new Vue({
         topTenPctMembers: [],
     },
     created: function () {
-//        getMemberNoForEachParty();
-//        getMembersInOrder("descending", "tblBodyLeastEngaged", "bottomTenPctMembers");
-//        getMembersInOrder("ascending", "tblBodyMostEngaged", "topTenPctMembers");
+        //        getMemberNoForEachParty();
+        //        getMembersInOrder("descending", "tblBodyLeastEngaged", "bottomTenPctMembers");
+        //        getMembersInOrder("ascending", "tblBodyMostEngaged", "topTenPctMembers");
     }
 })
 
@@ -218,9 +221,7 @@ function getMembersInOrder(order) {
             arrayFirstEleven.push(myArray[i]);
         }
     }
-//    app.bottomTenPctMembers = arrayFirstEleven;
-//    app.topTenPctMembers = arrayFirstEleven;
-    // returns an ordered array in either the top or bottom 10%
+    // returns an ordered array of either the top or bottom 10%
     return arrayFirstEleven;
 }
 

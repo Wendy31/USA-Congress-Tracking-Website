@@ -11,47 +11,58 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
+        app.loading = true;
     })
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
+        app.members = arrayMembers;
+        app.loading = false;
 
         getMemberNoForEachParty();
-        createGlanceTable(statistics.members);
-        getMembersInOrder("lowest");
-        createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
-        getMembersInOrder("highest");
-        createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+
+        app.bottomTenPctMembers = getMembersInOrder("ascending");
+
+        app.topTenPctMembers = getMembersInOrder("descending");
     })
 
 
 
+//..............Vue object to make table...............//
+var app = new Vue({
+    el: '#app',
+    data: {
+        loading: true,
+        members: [],
+        membersStats: { // an object with keys(parties). Each key has an object. 
+            Democrats: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            },
+            Republicans: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            },
+            Independents: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            },
+            Total: {
+                "no_representatives": 0,
+                "avg_votes": 0,
+            }
+        },
+        bottomTenPctMembers: [],
+        topTenPctMembers: [],
+    },
+    created: function () {
+        //        getMemberNoForEachParty();
+        //        getMembersInOrder("descending", "tblBodyLeastEngaged", "bottomTenPctMembers");
+        //        getMembersInOrder("ascending", "tblBodyMostEngaged", "topTenPctMembers");
+    }
+})
 
-//.......Statistics object.......//
-var statistics = {
-    "members": [
-        {
-            "party": "Democrats",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        },
-        {
-            "party": "Republicans",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        },
-        {
-            "party": "Independents",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        },
-        {
-            "party": "Total",
-            "no_representatives": 0,
-            "avg_votes": 0,
-        }
-    ]
-}
+
 
 // calling functions 
 //getMemberNoForEachParty(); // to count and get avg vote
@@ -76,18 +87,18 @@ function getMemberNoForEachParty() {
         }
     }
 
-    // append all data to Statistics object
-    statistics.members[0].no_representatives = arrayDemocrats.length;
-    statistics.members[1].no_representatives = arrayRepublicans.length;
-    statistics.members[2].no_representatives = arrayIndependents.length;
-    statistics.members[3].no_representatives =
+    // asign all data to Statistics object
+    app.membersStats.Democrats.no_representatives = arrayDemocrats.length;
+    app.membersStats.Republicans.no_representatives = arrayRepublicans.length;
+    app.membersStats.Independents.no_representatives = arrayIndependents.length;
+    app.membersStats.Total.no_representatives =
         myArray.length;
 
-    // to calculate the avg, call the avg function to do the task and put the approriate array inside parameter 
-    statistics.members[0].avg_votes = calculateAverage(arrayDemocrats);
-    statistics.members[1].avg_votes = calculateAverage(arrayRepublicans);
-    statistics.members[2].avg_votes = calculateAverage(arrayIndependents);
-    statistics.members[3].avg_votes =
+    // call calculate avg function to do its task
+    app.membersStats.Democrats.avg_votes = calculateAverage(arrayDemocrats);
+    app.membersStats.Republicans.avg_votes = calculateAverage(arrayRepublicans);
+    app.membersStats.Independents.avg_votes = calculateAverage(arrayIndependents);
+    app.membersStats.Total.avg_votes =
         calculateAverage(myArray);
 }
 
@@ -141,11 +152,11 @@ function getMembersInOrder(order) {
 
     var myArray = Array.from(arrayMembers);
 
-    if (order === "highest") { // if order is lowest sort array decendingly 
+    if (order === "descending") { // if order is lowest sort array decendingly 
         myArray.sort(function (a, b) {
             return b.votes_with_party_pct - a.votes_with_party_pct;
         })
-    } else if (order === "lowest") { // else if order is highest sort array ascendingly 
+    } else if (order === "ascending") { // else if order is highest sort array ascendingly 
         myArray.sort(function (a, b) {
             return a.votes_with_party_pct - b.votes_with_party_pct;
         })

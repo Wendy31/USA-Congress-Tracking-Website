@@ -1,19 +1,17 @@
 function showReadMoreReadLess() {
-    /* 
-    1. Get ID from HTML to JS
-    2. if content is hidden show "read more"
-    3. else show "read less"
-    */
-
-
+    var dots = document.getElementById("dots");
     var moreText = document.getElementById("more");
-    var btnText = document.getElementById("hideshowbtn");
-    if (moreText.style.display = "block") {
+    var btnText = document.getElementById("myBtn");
+
+    if (dots.style.display === "none") {
+        dots.style.display = "inline";
         btnText.innerHTML = "Read more";
-    } else {
         moreText.style.display = "none";
+    } else {
+        dots.style.display = "none";
         btnText.innerHTML = "Read less";
+        moreText.style.display = "inline";
     }
 }
 
-document.getElementById("hideshowbtn").addEventListener("click", showReadMoreReadLess);
+showReadMoreReadLess();

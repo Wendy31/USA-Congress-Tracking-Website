@@ -12,12 +12,15 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
+        app.loading = true;
     })
+
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
         app.members = arrayMembers;
-        // createTable()
+        app.loading = false;
+
         populateStateDropdown()
     });
 
@@ -33,6 +36,7 @@ document.getElementById("statedropdown").addEventListener("change", getPartyAndS
 var app = new Vue({
     el: '#app',
     data: {
+        loading: true,
         members: []
     },
     methods: {

@@ -11,17 +11,19 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
+        app.loading = true;
     })
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
+        app.members = arrayMembers;
+        app.loading = false;
 
         getMemberNoForEachParty();
-        //        createGlanceTable(statistics.members);
-        getMembersInOrder("lowest");
-        //        createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
-        getMembersInOrder("highest");
-        //        createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+
+        app.bottomTenPctMembers = getMembersInOrder("descending");
+
+        app.topTenPctMembers = getMembersInOrder("ascending");
     })
 
 
@@ -33,6 +35,7 @@ fetch(url, {
 var app = new Vue({
     el: '#app',
     data: {
+        loading: true,
         members: [],
         membersStats: { // an object with keys(parties). Each key has an object. 
             Democrats: {
@@ -51,27 +54,10 @@ var app = new Vue({
                 "no_representatives": 0,
                 "avg_votes": 0,
             }
-        }
+        },
+        bottomTenPctMembers: [],
+        topTenPctMembers: [],
     },
-    methods: {
-        callAllFunctions: function () {
-            //            createGlanceTable(statistics.members);
-
-            getMembersInOrder("lowest");
-            //            createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
-
-            getMembersInOrder("highest");
-            //            createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
-        }
-    },
-    computed: {
-
-    },
-    created: function () {
-        getMemberNoForEachParty();
-    }
-
-
 })
 
 
@@ -195,11 +181,11 @@ function getMembersInOrder(order) {
 
     var myArray = Array.from(arrayMembers);
 
-    if (order === "lowest") { // if order is lowest sort array decendingly 
+    if (order === "descending") { // if order is lowest sort array decendingly 
         myArray.sort(function (a, b) {
             return b.missed_votes_pct - a.missed_votes_pct;
         })
-    } else if (order === "highest") { // else if order is highest sort array ascendingly 
+    } else if (order === "ascending") { // else if order is highest sort array ascendingly 
         myArray.sort(function (a, b) {
             return a.missed_votes_pct - b.missed_votes_pct;
         })

@@ -12,11 +12,13 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
+        app.loading = true;
     })
     .then(function (myData) {
         arrayMembers = myData.results[0].members;
         app.members = arrayMembers;
-    //        createTable();
+        app.loading = false;
+
         populateStateDropdown();
     })
 
@@ -32,6 +34,7 @@ document.getElementById("housedropdown").addEventListener("change", getPartyAndS
 var app = new Vue({
     el: '#app',
     data: {
+        loading: true,
         members: []
     },
     methods: {
