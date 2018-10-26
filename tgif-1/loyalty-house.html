@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <title>House Loyalty</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container" id="app">
+
+        <header>
+
+            <a href="https://www.whitehouse.gov/the_press_office/TransparencyandOpenGovernment"> <img class="logo" class="img-responsive" src="../tgif_project/pics/tgif-logo.png" alt="Chania"></a>
+
+        </header>
+
+        <nav class="navbar navbar-inverse">
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Congress 113<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="house-data.html">House</a></li>
+                        <li><a href="senate-data.html">Senate</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="attendance-house.html">House</a></li>
+                        <li><a href="attendance-senate.html">Senate</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Party Loyalty<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="loyalty-house.html">House</a></li>
+                        <li><a href="loyalty-senate.html">Senate</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="loading" v-show="loading">
+
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+
+        </div>
+
+        <div id="content" v-show="!loading">
+
+            <div class="pTopLeft">
+                <h3>Party Loyalty</h3>
+                <p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively, tend to be the most faithful in voting for their party's nominee for office and legislation that backs their party's agenda.</p>
+            </div>
+
+            <div class="topTableRight">
+                <h4>House at a glance</h4>
+                <table class="table table-striped" id="house-stats">
+                    <thead class="thead thead-dark">
+                        <th>Party</th>
+                        <th>Number of Representatives</th>
+                        <th>&#8274; Voted with Party</th>
+                    </thead>
+                    <tbody id="tblBodyHouseGlance">
+                        <tr v-for="objectInsideKey, keyParty in membersStats">
+                            <td>{{keyParty}}</td>
+                            <td>{{objectInsideKey.no_representatives}}</td>
+                            <td>{{objectInsideKey.avg_votes}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tableInARow">
+                <div class="bottomTableLeft">
+                    <h4>Least Loyal (Bottom 10&#8274; of Party)</h4>
+                    <table class="table table-striped" id="leastEngagedHouse">
+                        <thead class="thead thead-dark">
+                            <th>Name</th>
+                            <th>No. of Party Votes</th>
+                            <th>&#8274; Party Votes</th>
+                        </thead>
+                        <tbody id="tblBodyLeastEngaged">
+                            <tr v-for="member in bottomTenPctMembers">
+                                <td><a v-bind:href="member.url" target="_blank"> {{member.first_name}} {{member.middle_name}} {{member.last_name}}</a></td>
+                                <td>{{member.total_votes}}</td>
+                                <td>{{member.votes_with_party_pct}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bottomTableRight">
+                    <h4>Most Loyal (Top 10&#8274; of Party)</h4>
+                    <table class="table table-striped" id="mostEngagedHouse">
+                        <thead class="thead thead-dark">
+                            <th>Name</th>
+                            <th>No. of Party Votes</th>
+                            <th>&#8274; Party Votes</th>
+                        </thead>
+                        <tbody id="tblBodyMostEngaged">
+                            <tr v-for="member in topTenPctMembers">
+                                <td><a v-bind:href="member.url" target="_blank"> {{member.first_name}} {{member.middle_name}} {{member.last_name}}</a></td>
+                                <td>{{member.total_votes}}</td>
+                                <td>{{member.votes_with_party_pct}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer">
+            <p>&copy; 2016 TGIF | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="tgif.css">
+
+    <!--        <script src="pro-congress-113-house.js"></script>-->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="loyalty-house.js"></script>
+
+</body>
+
+</html>

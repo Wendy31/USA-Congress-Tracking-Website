@@ -1,8 +1,8 @@
-//var arrayMembers = data.results[0].members; // global array
+//var arrayMembers = data.results[0].members; // global data of members
 
 var arrayMembers;
 
-var url = "https://api.propublica.org/congress/v1/113/house/members.json";
+var url = "https://api.propublica.org/congress/v1/113/senate/members.json";
 
 fetch(url, {
         headers: {
@@ -11,30 +11,28 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
-        app.loading = true; //loading show when no data
+        app.loading = true;
     })
 
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
         app.members = arrayMembers;
-        app.loading = false; //loading stop when data shows
+        app.loading = false;
 
         getMemberNoForEachParty();
 
-        app.bottomTenPctMembers = getMembersInOrder("ascending");
+        app.bottomTenPctMembers = getMembersInOrder("descending");
 
-        app.topTenPctMembers = getMembersInOrder("descending");
+        app.topTenPctMembers = getMembersInOrder("ascending");
     })
 
-// show loader before data is fetched. show = true
-// show false when data is present. When fetch is success
 
 //..............Vue object to make table...............//
 var app = new Vue({
     el: '#app',
     data: {
-        loading: true, //show loading right before all data
+        loading: true,
         members: [],
         membersStats: { // an object with keys(parties). Each key has an object. 
             Democrats: {
@@ -57,26 +55,58 @@ var app = new Vue({
         bottomTenPctMembers: [],
         topTenPctMembers: [],
     },
-    method: {
-
+    created: function () {
+        //        getMemberNoForEachParty();
+        //        getMembersInOrder("descending", "tblBodyLeastEngaged", "bottomTenPctMembers");
+        //        getMembersInOrder("ascending", "tblBodyMostEngaged", "topTenPctMembers");
     }
 })
 
 
-// calling functions 
-//getMemberNoForEachParty(); // to count and get avg vote
-//createGlanceTable(statistics.members); // calls table function with given data (stats object) 
+
+
+//.......Statistics object.......//
+//var statistics = {
+//    "members": [
+//        {
+//            "party": "Democrats",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Republicans",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Independents",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Total",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        }
+//    ]
+//}
+
+//getMemberNoForEachParty(); // calls the count function
+//createGlanceTable(statistics.members); //calls table function with statistics object inside param to populate table
 
 
 //.........Count each member of each party........//
-// count each member and push to separate arrays
+//Make three array lists, one for each party, and get the length
 function getMemberNoForEachParty() {
     var arrayDemocrats = [];
     var arrayRepublicans = [];
     var arrayIndependents = [];
-    var myArray = Array.from(arrayMembers);
+    var myArray = Array.from(arrayMembers); //create local array
 
+    // loop through myArray and push items into separate party arrays 
     for (var i = 0; i < myArray.length; i++) {
+        // Hint: Could use a Switch Statement here 
+        // See: https://www.w3schools.com/js/js_switch.asp for more information
         if (myArray[i].party === "D") {
             arrayDemocrats.push(myArray[i]);
         } else if (myArray[i].party === "R") {
@@ -86,7 +116,7 @@ function getMemberNoForEachParty() {
         }
     }
 
-    // asign all data to Statistics object
+    // append all data to Statistics object
     app.membersStats.Democrats.no_representatives = arrayDemocrats.length;
     app.membersStats.Republicans.no_representatives = arrayRepublicans.length;
     app.membersStats.Independents.no_representatives = arrayIndependents.length;
@@ -102,8 +132,9 @@ function getMemberNoForEachParty() {
 }
 
 // .............Average Calculator.............//
-function calculateAverage(arrayParty) {
+function calculateAverage(arrayParty) { // params can be any name. It's what will be passed inside later i.e an arrray list. Name doesn't matter, the position matters.
 
+    // loop around array and sum up all % votes
     var sum = 0;
     for (var i = 0; i < arrayParty.length; i++) {
         sum += arrayParty[i].votes_with_party_pct;
@@ -115,15 +146,14 @@ function calculateAverage(arrayParty) {
         roundedAverage = 0;
     }
 
-    return roundedAverage + " %"; // return the result each time
+    return roundedAverage + " %"; // return if you want to return anything as a RESULT of this function call
 }
 
 
 // ..........Senate at a glance table...........//
-// creates table using the given input data. Which is an array
 function createGlanceTable(arrayStatisticsMembers) {
 
-    var tblbody = document.getElementById("tblBodyHouseGlance");
+    var tblbody = document.getElementById("tblBodySenateGlance"); //get tbody from HTML
 
     for (var i = 0; i < arrayStatisticsMembers.length; i++) {
         var tblRows = document.createElement("tr"); //create tr
@@ -143,43 +173,67 @@ function createGlanceTable(arrayStatisticsMembers) {
 
 
 
+// Note: It does not matter where global "vars" are delcarted in the code because javascript has hoisting
+// https://www.w3schools.com/js/js_hoisting.asp
+
+//getMembersInOrder("lowest")
+//createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged");
+//
+//getMembersInOrder("highest"); // calling the function that calculates and returns an array
+//
+//// table function that is passed a function that returns an ordered array, and name of a table body. 
+//createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged");
+
+
 //.......Orders Members in top/ bottom 10%.......//
-// this function puts members in ascending and descending order
-// then gets bottom or top 10%
-// it is ordered by the given order (i.e. "lowest","highest")
+
+// getMembersInOrder is a function which calculates the top and bottom 10% of members by engagmenet, ordered by the given order ("highest","lowest")
 function getMembersInOrder(order) {
 
+    // 1. get global array and make local array
     var myArray = Array.from(arrayMembers);
 
-    if (order === "descending") { // if order is lowest sort array decendingly 
-        myArray.sort(function (a, b) {
-            return b.votes_with_party_pct - a.votes_with_party_pct;
-        })
-    } else if (order === "ascending") { // else if order is highest sort array ascendingly 
-        myArray.sort(function (a, b) {
-            return a.votes_with_party_pct - b.votes_with_party_pct;
-        })
+    // 2. sort array of ALL members out in descending and ascending order, use IF statement:
+    if (order === "descending") { // if order is "lowest"
+        myArray.sort(function (a, b) { // sort myArray list from highest missed %vote to lowest to get the least engaged members
+            return b.missed_votes_pct - a.missed_votes_pct;
+        }) // return the result of highest to lowest sorting order
+    } else if (order === "ascending") { // else if order is "highest"
+        myArray.sort(function (a, b) { // sort myArray order from lowest to highest of % votes to get most engaged member
+            return a.missed_votes_pct - b.missed_votes_pct;
+        }) // return the result of low to high sorting order
     }
 
+
+    // 3. work out 10% of the total senate number (105)= members.length * 0.10 = 10.50 and math.round
     var pctTen = myArray.length * 0.10;
-    var roundedPosition = Math.round(pctTen);
+    var roundedPosition = Math.round(pctTen); // round 10.50 up
+
+    // 4. Loop thru all 11 members and put them into a new array
     var arrayFirstEleven = [];
     for (var i = 0; i < roundedPosition; i++) {
         arrayFirstEleven.push(myArray[i]);
     }
 
+    // 5. Loop around all members starting from 12th position. If % vote === to last % vote of other array, push number into arrayFirstEleven.
     for (var i = roundedPosition + 1; i < myArray.length; i++) {
-        if (arrayFirstEleven[arrayFirstEleven.length - 1].votes_with_party_pct === myArray[i].votes_with_party_pct) {
+        if (arrayFirstEleven[arrayFirstEleven.length - 1].missed_votes_pct === myArray[i].missed_votes_pct) {
             arrayFirstEleven.push(myArray[i]);
         }
     }
-    return arrayFirstEleven; // return an ordered array
+    // returns an ordered array of either the top or bottom 10%
+    return arrayFirstEleven;
 }
 
 
 //........... Senate engagement table.............//
-// this function creates a table using the given data 
-// and puts table to the given table body in the HTML
+
+// General rules for refactoring:
+// 1) Find the variables that are different
+// 2) Pass them in as paramaters
+
+// this function creates a table using the given input data which must be an array of members, 
+// and puts the data into the given tablebody ref
 function createEngagementTable(data, tblBodyName) {
     var tblbody = document.getElementById(tblBodyName);
 
@@ -197,7 +251,7 @@ function createEngagementTable(data, tblBodyName) {
         link.setAttribute("href", data[i].url);
         link.textContent = fullName;
 
-        var memberInfo = [link, data[i].total_votes, data[i].votes_with_party_pct + " %"];
+        var memberInfo = [link, data[i].missed_votes, data[i].missed_votes_pct + " %"];
 
         for (var j = 0; j < memberInfo.length; j++) {
             var tblCells = document.createElement("td");
@@ -207,10 +261,3 @@ function createEngagementTable(data, tblBodyName) {
         tblbody.appendChild(tblRows);
     }
 }
-
-
-//getMembersInOrder("lowest"); // calls function that returns an ordered array, in desceding order
-//createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged"); // calls table function that uses the given ordered array and puts into the given table body
-
-//getMembersInOrder("highest"); // calls function that returns an ordered array, in ascending order
-//createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged"); // calls table function that uses the given ordered array and puts into the given table body

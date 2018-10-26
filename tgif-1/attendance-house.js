@@ -11,30 +11,31 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
-        app.loading = true; //loading show when no data
+        app.loading = true;
     })
-
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
         app.members = arrayMembers;
-        app.loading = false; //loading stop when data shows
+        app.loading = false;
 
         getMemberNoForEachParty();
 
-        app.bottomTenPctMembers = getMembersInOrder("ascending");
+        app.bottomTenPctMembers = getMembersInOrder("descending");
 
-        app.topTenPctMembers = getMembersInOrder("descending");
+        app.topTenPctMembers = getMembersInOrder("ascending");
     })
 
-// show loader before data is fetched. show = true
-// show false when data is present. When fetch is success
+
+
+
+
 
 //..............Vue object to make table...............//
 var app = new Vue({
     el: '#app',
     data: {
-        loading: true, //show loading right before all data
+        loading: true,
         members: [],
         membersStats: { // an object with keys(parties). Each key has an object. 
             Democrats: {
@@ -57,11 +58,37 @@ var app = new Vue({
         bottomTenPctMembers: [],
         topTenPctMembers: [],
     },
-    method: {
-
-    }
 })
 
+
+
+
+//
+////.......Statistics object.......//
+//var statistics = {
+//    "members": [
+//        {
+//            "party": "Democrats",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Republicans",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Independents",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        },
+//        {
+//            "party": "Total",
+//            "no_representatives": 0,
+//            "avg_votes": 0,
+//        }
+//    ]
+//}
 
 // calling functions 
 //getMemberNoForEachParty(); // to count and get avg vote
@@ -86,14 +113,16 @@ function getMemberNoForEachParty() {
         }
     }
 
-    // asign all data to Statistics object
+    // append all data to Statistics object
+    // append all data to Statistics object
     app.membersStats.Democrats.no_representatives = arrayDemocrats.length;
     app.membersStats.Republicans.no_representatives = arrayRepublicans.length;
     app.membersStats.Independents.no_representatives = arrayIndependents.length;
     app.membersStats.Total.no_representatives =
         myArray.length;
 
-    // call calculate avg function to do its task
+
+    // to calculate the avg, call the avg function to do the task and put the approriate array inside parameter 
     app.membersStats.Democrats.avg_votes = calculateAverage(arrayDemocrats);
     app.membersStats.Republicans.avg_votes = calculateAverage(arrayRepublicans);
     app.membersStats.Independents.avg_votes = calculateAverage(arrayIndependents);
@@ -117,6 +146,7 @@ function calculateAverage(arrayParty) {
 
     return roundedAverage + " %"; // return the result each time
 }
+
 
 
 // ..........Senate at a glance table...........//
@@ -153,11 +183,11 @@ function getMembersInOrder(order) {
 
     if (order === "descending") { // if order is lowest sort array decendingly 
         myArray.sort(function (a, b) {
-            return b.votes_with_party_pct - a.votes_with_party_pct;
+            return b.missed_votes_pct - a.missed_votes_pct;
         })
     } else if (order === "ascending") { // else if order is highest sort array ascendingly 
         myArray.sort(function (a, b) {
-            return a.votes_with_party_pct - b.votes_with_party_pct;
+            return a.missed_votes_pct - b.missed_votes_pct;
         })
     }
 
@@ -169,7 +199,7 @@ function getMembersInOrder(order) {
     }
 
     for (var i = roundedPosition + 1; i < myArray.length; i++) {
-        if (arrayFirstEleven[arrayFirstEleven.length - 1].votes_with_party_pct === myArray[i].votes_with_party_pct) {
+        if (arrayFirstEleven[arrayFirstEleven.length - 1].missed_votes_pct === myArray[i].missed_votes_pct) {
             arrayFirstEleven.push(myArray[i]);
         }
     }
@@ -197,7 +227,7 @@ function createEngagementTable(data, tblBodyName) {
         link.setAttribute("href", data[i].url);
         link.textContent = fullName;
 
-        var memberInfo = [link, data[i].total_votes, data[i].votes_with_party_pct + " %"];
+        var memberInfo = [link, data[i].missed_votes, data[i].missed_votes_pct + " %"];
 
         for (var j = 0; j < memberInfo.length; j++) {
             var tblCells = document.createElement("td");
@@ -211,6 +241,6 @@ function createEngagementTable(data, tblBodyName) {
 
 //getMembersInOrder("lowest"); // calls function that returns an ordered array, in desceding order
 //createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged"); // calls table function that uses the given ordered array and puts into the given table body
-
+//
 //getMembersInOrder("highest"); // calls function that returns an ordered array, in ascending order
 //createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged"); // calls table function that uses the given ordered array and puts into the given table body

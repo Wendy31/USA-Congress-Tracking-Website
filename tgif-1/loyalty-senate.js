@@ -2,7 +2,7 @@
 
 var arrayMembers;
 
-var url = "https://api.propublica.org/congress/v1/113/house/members.json";
+var url = "https://api.propublica.org/congress/v1/113/senate/members.json";
 
 fetch(url, {
         headers: {
@@ -11,14 +11,13 @@ fetch(url, {
     })
     .then(function (data) {
         return data.json();
-        app.loading = true; //loading show when no data
+        app.loading = true;
     })
-
     .then(function (myData) {
         console.log(myData);
         arrayMembers = myData.results[0].members;
         app.members = arrayMembers;
-        app.loading = false; //loading stop when data shows
+        app.loading = false;
 
         getMemberNoForEachParty();
 
@@ -27,14 +26,13 @@ fetch(url, {
         app.topTenPctMembers = getMembersInOrder("descending");
     })
 
-// show loader before data is fetched. show = true
-// show false when data is present. When fetch is success
+
 
 //..............Vue object to make table...............//
 var app = new Vue({
     el: '#app',
     data: {
-        loading: true, //show loading right before all data
+        loading: true,
         members: [],
         membersStats: { // an object with keys(parties). Each key has an object. 
             Democrats: {
@@ -57,10 +55,13 @@ var app = new Vue({
         bottomTenPctMembers: [],
         topTenPctMembers: [],
     },
-    method: {
-
+    created: function () {
+        //        getMemberNoForEachParty();
+        //        getMembersInOrder("descending", "tblBodyLeastEngaged", "bottomTenPctMembers");
+        //        getMembersInOrder("ascending", "tblBodyMostEngaged", "topTenPctMembers");
     }
 })
+
 
 
 // calling functions 
@@ -111,7 +112,7 @@ function calculateAverage(arrayParty) {
     var average = sum / arrayParty.length; // get average
     var roundedAverage = average.toFixed(2);
 
-    if (isNaN(roundedAverage)) {
+    if (isNaN(roundedAverage)) { // if rounded average = NaN -> roundedAverage = 0
         roundedAverage = 0;
     }
 
@@ -211,6 +212,6 @@ function createEngagementTable(data, tblBodyName) {
 
 //getMembersInOrder("lowest"); // calls function that returns an ordered array, in desceding order
 //createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged"); // calls table function that uses the given ordered array and puts into the given table body
-
+//
 //getMembersInOrder("highest"); // calls function that returns an ordered array, in ascending order
 //createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged"); // calls table function that uses the given ordered array and puts into the given table body
