@@ -26,7 +26,7 @@ fetch(url, {
 document.getElementById("clickR").addEventListener("click", getPartyAndState);
 document.getElementById("clickD").addEventListener("click", getPartyAndState);
 document.getElementById("clickI").addEventListener("click", getPartyAndState);
-document.getElementById("housedropdown").addEventListener("change", getPartyAndState);
+document.getElementById("statedropdown").addEventListener("change", getPartyAndState);
 
 
 
@@ -154,19 +154,19 @@ function populateStateDropdown() {
  */
 
 function getPartyAndState() {
-    var dropmenu = document.getElementById("housedropdown").value;
+    var dropmenu = document.getElementById("statedropdown").value;
 
 
     // get checkbox to filter table
     var arrayCheckedbox = []; // Array of all checked items
-    var CheckedBoxes = document.getElementsByName("partyforhouse"); // pass checkbox names to function
+    var CheckedBoxes = document.getElementsByName("party"); // pass checkbox names to function
     for (var n = 0; n < CheckedBoxes.length; n++) { //loop over all checkboxes//
         if (CheckedBoxes[n].checked) {
             arrayCheckedbox.push(CheckedBoxes[n].value);
         }
     }
 
-    var tblBody = document.getElementById("tblBod");
+    var tblBody = document.getElementById("tblBody");
     var rows = tblBody.getElementsByTagName("tr");
 
     // After any checkbox is changed, Loop through all checkboxes and show only those marked as checked

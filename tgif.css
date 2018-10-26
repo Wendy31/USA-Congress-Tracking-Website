@@ -44,8 +44,19 @@
 }
 
 /*..........Read more/ less..........*/
-.more {
-    display: none;
+.noBoxButton {
+    background-color: Transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: royalblue;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.noBoxButton:hover {
+     text-decoration: underline;
+    color: mediumblue;
 }
 
 

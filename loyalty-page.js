@@ -2,7 +2,12 @@
 
 var arrayMembers;
 
-var url = "https://api.propublica.org/congress/v1/113/house/members.json";
+if (window.location.pathname == "/loyalty-senate.html") {
+    var url = "https://api.propublica.org/congress/v1/113/senate/members.json"
+} else if (window.location.pathname == "/loyalty-house.html") {
+    var url = "https://api.propublica.org/congress/v1/113/house/members.json"
+}
+
 
 fetch(url, {
         headers: {
@@ -57,15 +62,7 @@ var app = new Vue({
         bottomTenPctMembers: [],
         topTenPctMembers: [],
     },
-    method: {
-
-    }
 })
-
-
-// calling functions 
-//getMemberNoForEachParty(); // to count and get avg vote
-//createGlanceTable(statistics.members); // calls table function with given data (stats object) 
 
 
 //.........Count each member of each party........//
@@ -114,7 +111,6 @@ function calculateAverage(arrayParty) {
     if (isNaN(roundedAverage)) {
         roundedAverage = 0;
     }
-
     return roundedAverage + " %"; // return the result each time
 }
 
@@ -175,42 +171,3 @@ function getMembersInOrder(order) {
     }
     return arrayFirstEleven; // return an ordered array
 }
-
-
-//........... Senate engagement table.............//
-// this function creates a table using the given data 
-// and puts table to the given table body in the HTML
-function createEngagementTable(data, tblBodyName) {
-    var tblbody = document.getElementById(tblBodyName);
-
-    for (var i = 0; i < data.length; i++) {
-        var tblRows = document.createElement("tr");
-
-        var fullName;
-        if (data[i].middle_name === null) {
-            fullName = data[i].first_name + " " + data[i].last_name;
-        } else {
-            fullName = data[i].first_name + " " + data[i].middle_name + " " + data[i].last_name;
-        }
-
-        var link = document.createElement("a");
-        link.setAttribute("href", data[i].url);
-        link.textContent = fullName;
-
-        var memberInfo = [link, data[i].total_votes, data[i].votes_with_party_pct + " %"];
-
-        for (var j = 0; j < memberInfo.length; j++) {
-            var tblCells = document.createElement("td");
-            tblCells.append(memberInfo[j]);
-            tblRows.appendChild(tblCells);
-        }
-        tblbody.appendChild(tblRows);
-    }
-}
-
-
-//getMembersInOrder("lowest"); // calls function that returns an ordered array, in desceding order
-//createEngagementTable(getMembersInOrder("lowest"), "tblBodyLeastEngaged"); // calls table function that uses the given ordered array and puts into the given table body
-
-//getMembersInOrder("highest"); // calls function that returns an ordered array, in ascending order
-//createEngagementTable(getMembersInOrder("highest"), "tblBodyMostEngaged"); // calls table function that uses the given ordered array and puts into the given table body

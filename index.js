@@ -1,3 +1,8 @@
+// hide text first
+document.getElementById("more1").style.display = "none";
+document.getElementById("more2").style.display = "none";
+
+// then function to 
 function showReadMoreReadLess(id_dots, id_moreText, id_btnText) { // passing id names as params. 
 
     // apply function to selected IDs
