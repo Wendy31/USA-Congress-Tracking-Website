@@ -115,30 +115,6 @@ function calculateAverage(arrayParty) {
 }
 
 
-// ..........Senate at a glance table...........//
-// creates table using the given input data. Which is an array
-function createGlanceTable(arrayStatisticsMembers) {
-
-    var tblbody = document.getElementById("tblBodyHouseGlance");
-
-    for (var i = 0; i < arrayStatisticsMembers.length; i++) {
-        var tblRows = document.createElement("tr"); //create tr
-
-        var tblColumns = [arrayStatisticsMembers[i].party,
-        arrayStatisticsMembers[i].no_representatives,
-        arrayStatisticsMembers[i].avg_votes];
-
-        for (var j = 0; j < tblColumns.length; j++) {
-            var tblCells = document.createElement("td");
-            tblCells.append(tblColumns[j]);
-            tblRows.appendChild(tblCells);
-        }
-        tblbody.appendChild(tblRows);
-    }
-}
-
-
-
 //.......Orders Members in top/ bottom 10%.......//
 // this function puts members in ascending and descending order
 // then gets bottom or top 10%

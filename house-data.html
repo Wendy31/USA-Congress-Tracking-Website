@@ -16,7 +16,10 @@
     <div class="container" id="app">
 
         <header>
-            <a href="https://www.whitehouse.gov/the_press_office/TransparencyandOpenGovernment"> <img class="logo" class="img-responsive" src="../tgif_project/pics/tgif-logo.png" alt="Chania"></a>
+            <a href="https://www.whitehouse.gov/the_press_office/TransparencyandOpenGovernment"> <img class="logo" class="img-responsive" src="pics/tgif-logo.png" alt="Chania"></a>
+
+            <a class="email" href="mailto:info@tgif.net">info@tgif.net</a>
+
         </header>
 
         <nav class="navbar navbar-inverse">
@@ -67,9 +70,9 @@
 
             <div class="checkbox">
                 <label>Filter by Party: </label>
-                <label class="checkbox-inline"><input type="checkbox" name="party" value="R" id="clickR" v-on:click="activateCheckBoxFilters">Republic</label><label class="checkbox-inline"><input type="checkbox" name="party" value="D" id="clickD" v-on:click="activateCheckBoxFilters">Democrat</label>
-                <label class="checkbox-inline"><input type="checkbox" name="party
-                " value="I" id="clickI" v-on:click="activateCheckBoxFilters">Independent</label>
+                <label class="checkbox-inline"><input type="checkbox" name="party" value="R" id="clickR" v-on:click="activateCheckBoxFilters">Republic</label>
+                <label class="checkbox-inline"><input type="checkbox" name="party" value="D" id="clickD" v-on:click="activateCheckBoxFilters">Democrat</label>
+                <label class="checkbox-inline"><input type="checkbox" name="party" value="I" id="clickI" v-on:click="activateCheckBoxFilters">Independent</label>
             </div>
 
             <label class="dropdownmenu">
@@ -95,17 +98,22 @@
                             <td>{{member.party}}</td>
                             <td>{{member.state}}</td>
                             <td>{{member.seniority}}</td>
-                            <td>{{member.votes_with_party_pct}}</td>
+                            <td>{{member.votes_with_party_pct}} %</td>
                         </tr>
                     </tbody>
+                    <tfoot v-show="noResultStatement">
+                        <tr>
+                            <td>No member found</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-
-        <footer class="footer">
-            <p>&copy; 2016 TGIF | All Rights Reserved</p>
-        </footer>
     </div>
+    <footer class="footer">
+        <p>&copy; 2016 TGIF | All Rights Reserved</p>
+    </footer>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

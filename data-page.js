@@ -26,14 +26,7 @@ fetch(url, {
         app.members = arrayMembers;
         app.loading = false;
 
-        populateStateDropdown()
     });
-
-
-document.getElementById("clickR").addEventListener("click", getPartyAndState);
-document.getElementById("clickD").addEventListener("click", getPartyAndState);
-document.getElementById("clickI").addEventListener("click", getPartyAndState);
-document.getElementById("statedropdown").addEventListener("change", getPartyAndState);
 
 
 
@@ -42,11 +35,12 @@ var app = new Vue({
     el: '#app',
     data: {
         loading: true,
-        members: []
+        members: [],
+        noResultStatement: false
     },
     methods: {
         activateCheckBoxFilters: function () {
-            getPartyAndState()
+            getPartyAndState();
         }
     },
     computed: {
@@ -59,6 +53,19 @@ var app = new Vue({
             // and sort
             // this will return an array of strings
             // all states in strings in alphabetical order
+        }
+    },
+
+    updated: {
+        noResultStatement: function () {
+            var tblBody = document.getElementById("tblBody");
+            var rows = tblBody.getElementsByTagName("tr");
+
+            if (rows.length === 0) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 })
@@ -85,8 +92,10 @@ function getPartyAndState() {
     // check the party columm. If value is in arrayCheckBox then show, else hide
 
     for (var i = 0; i < rows.length; i++) { //loop over all rows and get second and third td
-        var secondTD = rows[i].getElementsByTagName("td")[1].innerText // text inside second cell of a row
-        var thirdTD = rows[i].getElementsByTagName("td")[2].innerText // text inside third cell of a row
+        var secondTD = rows[i].getElementsByTagName("td")[1].innerHTML
+        // not text inside second cell of a row but direct <td>value</td> of HTML
+        var thirdTD = rows[i].getElementsByTagName("td")[2].innerHTML
+        // innerText = text inside third cell of a row from HTML
         // arrayCheckedeBox = ["R", "D"]
         // 'includes' function checks if the given string is inside the array
         if (arrayCheckedbox.includes(secondTD) && (dropmenu.includes(thirdTD) || dropmenu.includes("All"))) { //if array includes secondTD and dropmenu includes thirdTD or "All"
