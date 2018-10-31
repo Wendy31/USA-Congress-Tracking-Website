@@ -36,7 +36,8 @@ var app = new Vue({
     data: {
         loading: true,
         members: [],
-        noResultStatement: false
+        testing: [],
+               noResultStatement: false,
     },
     methods: {
         activateCheckBoxFilters: function () {
@@ -44,7 +45,12 @@ var app = new Vue({
         }
     },
     computed: {
-        populateStateDropdown: function () { // function name and then declare function
+
+
+        populateStateDropdown: function () {
+
+            console.log("22")
+            // function name and then declare function
             return [...new Set(this.members.map((member) => member.state).sort())]
             // inside Set is an array with no dublicates. 
             // members.map = a loop of all members
@@ -56,16 +62,22 @@ var app = new Vue({
         }
     },
 
-    updated: {
-        noResultStatement: function () {
-            var tblBody = document.getElementById("tblBody");
-            var rows = tblBody.getElementsByTagName("tr");
+    updated() {
 
-            if (rows.length === 0) {
-                return false;
-            } else {
-                return true;
+        var tblBody = document.getElementById("tblBody");
+        var rows = tblBody.getElementsByTagName("tr");
+        console.log(rows)
+        var trCounter = 0;
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i].style.display == "none") {
+                trCounter++;
             }
+        }
+        if (trCounter == rows.length) {
+            console.log("True")
+            this.noResultStatement = true;
+        }else {
+            this.noResultStatement = false;
         }
     }
 })

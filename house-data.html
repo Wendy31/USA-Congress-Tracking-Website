@@ -103,7 +103,7 @@
                     </tbody>
                     <tfoot v-show="noResultStatement">
                         <tr>
-                            <td>No member found</td>
+                            <td v-if="members.length == 0">No member found</td>
                         </tr>
                     </tfoot>
                 </table>
